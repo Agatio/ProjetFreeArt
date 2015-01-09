@@ -1,7 +1,7 @@
 <%-- 
     Document   : index
     Created on : 9 janv. 2015, 11:08:53
-    Author     : Arthur Ogé, Nataly Luck, Sébastien Landré
+    Author     : Arthur Ogé, Nataly Luck, Sebastian Lendre
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
