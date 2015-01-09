@@ -1,7 +1,7 @@
 <%-- 
     Document   : index
     Created on : 9 janv. 2015, 11:08:53
-    Author     : Windows
+    Author     : Arthur Ogé, Nataly Luck, Sébastien Landré
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -15,5 +15,6 @@
         <h1>Hello World!</h1>
         <p> coucou </p>
         <p>Test Nath</p>
+        <span>Le poussin piou</span>
     </body>
 </html>
