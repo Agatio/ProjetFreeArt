@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.url">jdbc:mysql://db4free.net:3306/freeartgrobert?zeroDateTimeBehavior=convertToNull</property>
+    <property name="hibernate.connection.username">grobert</property>
+    <property name="hibernate.connection.password">grobert</property>
+    <mapping resource="freeart/User.hbm.xml"/>
+    <mapping resource="freeart/Tag.hbm.xml"/>
+    <mapping resource="freeart/Categorie.hbm.xml"/>
+    <mapping resource="freeart/Commentaire.hbm.xml"/>
+    <mapping resource="freeart/Creation.hbm.xml"/>
+  </session-factory>
+</hibernate-configuration>

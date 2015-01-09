@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 9 janv. 2015 14:45:17 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="freeart.Creation" table="Creation" catalog="freeartgrobert">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="nom" type="string">
+            <column name="nom" length="30" not-null="true" />
+        </property>
+        <property name="description" type="string">
+            <column name="description" length="500" not-null="true" />
+        </property>
+        <property name="file" type="binary">
+            <column name="file" not-null="true" />
+        </property>
+        <property name="idCategorie" type="int">
+            <column name="id_categorie" not-null="true" />
+        </property>
+        <property name="idUser" type="int">
+            <column name="id_user" not-null="true" />
+        </property>
+        <property name="date" type="date">
+            <column name="date" length="10" not-null="true" />
+        </property>
+        <property name="dimensFile" type="string">
+            <column name="dimens_file" length="20" not-null="true" />
+        </property>
+        <property name="poidsFile" type="int">
+            <column name="poids_file" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
