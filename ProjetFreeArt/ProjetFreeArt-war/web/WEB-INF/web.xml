@@ -7,9 +7,25 @@
         <servlet-name>ConnexionServlet</servlet-name>
         <servlet-class>freeart.ConnexionServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CreationServlet</servlet-name>
+        <servlet-class>freeart.CreationServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CategorieServlet</servlet-name>
+        <servlet-class>freeart.CategorieServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ConnexionServlet</servlet-name>
         <url-pattern>/ConnexionServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreationServlet</servlet-name>
+        <url-pattern>/CreationServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CategorieServlet</servlet-name>
+        <url-pattern>/CategorieServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -17,4 +33,3 @@
         </session-timeout>
     </session-config>
 </web-app>
-
