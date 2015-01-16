@@ -33,7 +33,7 @@ public class ConnexionServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
+            /*out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
             out.println("<title>Servlet ConnexionServlet</title>");            
@@ -41,7 +41,7 @@ public class ConnexionServlet extends HttpServlet {
             out.println("<body>");
             out.println("<h1>Servlet ConnexionServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
-            out.println("</html>");
+            out.println("</html>");*/
         } finally {            
             out.close();
         }
@@ -75,7 +75,25 @@ public class ConnexionServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        PrintWriter out = response.getWriter();
+        response.setContentType("text/html");
+
+        String action = request.getParameter("action");
+
+        if (action.equals("loginform")) {
+            boolean resCo = freeart.Connexion.checkConnexion(request.getParameter("login"),request.getParameter("password"));
+            if(resCo == true)
+            {
+                String url = request.getRequestURL().toString();
+                String baseURL = url.substring(0, url.length() - request.getRequestURI().length()) + request.getContextPath() + "/";
+                out.println("<p>Connexion reussie</p>");
+                response.sendRedirect("index.jsp");
+            }
+            else
+            {
+                out.println("<p>Connexion impossible</p>");
+            }
+        }
     }
 
     /**
