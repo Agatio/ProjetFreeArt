@@ -9,7 +9,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
-    freeart.EJBCreation.getCreations();
+    //freeart.CreationServlet
     %>
 <!DOCTYPE html>
 <html>
@@ -23,11 +23,23 @@
         <p>Test Nath</p>
         <span>Le poussin piou</span>  
         <h1>i gwec</h1>
+        
+        <form method="POST" action="CreationServlet" id="cheat">
+            <input type="hidden" name="action" value="testNath"/>
+            <input type="submit" value="Afficher les noms d'images"/>
+        </form>
+        
         <ul>
-	<c:forEach var="crea" items="${listcrea}">
-		<li><c:out value="${crea}" /></li>
-	</c:forEach>
+            <c:forEach var="item" items="${categories}">
+                    <li><c:out value="${item}" /></li>
+            </c:forEach>
         </ul>
         
+        <script type="text/javascript">
+            window.onload = function(){
+                document.getElementById('cheat').submit();
+            };
+            
+        </script>
     </body>
 </html>

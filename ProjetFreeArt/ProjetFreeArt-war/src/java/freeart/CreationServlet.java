@@ -6,12 +6,17 @@ package freeart;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
 /**
  *
@@ -29,6 +34,7 @@ public class CreationServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -44,7 +50,8 @@ public class CreationServlet extends HttpServlet {
             out.println("<h1>Servlet CreationServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
-        } finally {            
+        } finally { 
+            this.getServletContext().getRequestDispatcher( "/index.jsp" ).forward( request, response );
             out.close();
         }
     }
@@ -79,6 +86,40 @@ public class CreationServlet extends HttpServlet {
             throws ServletException, IOException {
         //processRequest(request, response);
         
+        String action = request.getParameter("action");
+        
+        if (action.equals("testNath"))
+        {
+            SessionFactory sessionFactory;
+
+            sessionFactory = new Configuration()
+                    .configure()
+                    .buildSessionFactory();
+            Session session = sessionFactory.openSession();
+            session.beginTransaction();
+            List<Creation> alC = new ArrayList<>();
+            List<String> noms = new ArrayList<String>();
+            
+            try
+            {
+                alC = session.createQuery( "from Creation" ).list();
+
+                for(Creation crea : alC)
+                {
+                    noms.add(crea.getNom());
+                }
+            } 
+            catch (NumberFormatException ex)
+            {
+                alC = null;
+            }
+
+                request.setAttribute("categories", noms);
+
+                RequestDispatcher rd = request
+                                .getRequestDispatcher("/index.jsp");
+                rd.forward(request, response);
+        }
     }
 
     /**
@@ -91,7 +132,7 @@ public class CreationServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
     
-    protected /*List<Creation>*/void getCreations(HttpServletRequest request, HttpServletResponse response)
+    public static /*List<Creation>*/void getCreations(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException 
     {
         PrintWriter out = response.getWriter();
@@ -102,7 +143,10 @@ public class CreationServlet extends HttpServlet {
         {
             noms.add(crea.getNom());
         }
-        request.setAttribute("listcrea", noms);
+        
+        System.out.println("<p>testest</p>");
+        
+        request.setAttribute("listcrea", resCrea);
         //return resCrea;
     }
 }
