@@ -6,6 +6,8 @@ package freeart;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import java.util.Vector;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -75,7 +77,8 @@ public class CreationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+        
     }
 
     /**
@@ -87,4 +90,19 @@ public class CreationServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+    
+    protected /*List<Creation>*/void getCreations(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException 
+    {
+        PrintWriter out = response.getWriter();
+        response.setContentType("text/html");
+        List<Creation> resCrea = freeart.EJBCreation.getCreations();
+        Vector<String> noms = new Vector<String>();
+        for(Creation crea : resCrea)
+        {
+            noms.add(crea.getNom());
+        }
+        request.setAttribute("listcrea", noms);
+        //return resCrea;
+    }
 }

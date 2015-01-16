@@ -4,7 +4,13 @@
     Author     : Arthur Ogé, Nataly Luck, Sebastian Lendre
 --%>
 
+<%@page import="java.util.List"%>
+<%@page import="freeart.Creation"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%
+    freeart.EJBCreation.getCreations();
+    %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -17,5 +23,11 @@
         <p>Test Nath</p>
         <span>Le poussin piou</span>  
         <h1>i gwec</h1>
+        <ul>
+	<c:forEach var="crea" items="${listcrea}">
+		<li><c:out value="${crea}" /></li>
+	</c:forEach>
+        </ul>
+        
     </body>
 </html>
