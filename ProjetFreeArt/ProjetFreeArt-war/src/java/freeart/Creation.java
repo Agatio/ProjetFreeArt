@@ -13,7 +13,7 @@ public class Creation  implements java.io.Serializable {
      private Integer id;
      private String nom;
      private String description;
-     private byte[] file;
+     private String file;
      private int idCategorie;
      private int idUser;
      private Date date;
@@ -23,7 +23,7 @@ public class Creation  implements java.io.Serializable {
     public Creation() {
     }
 
-    public Creation(String nom, String description, byte[] file, int idCategorie, int idUser, Date date, String dimensFile, int poidsFile) {
+    public Creation(String nom, String description, String file, int idCategorie, int idUser, Date date, String dimensFile, int poidsFile) {
        this.nom = nom;
        this.description = description;
        this.file = file;
@@ -55,11 +55,11 @@ public class Creation  implements java.io.Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-    public byte[] getFile() {
+    public String getFile() {
         return this.file;
     }
     
-    public void setFile(byte[] file) {
+    public void setFile(String file) {
         this.file = file;
     }
     public int getIdCategorie() {

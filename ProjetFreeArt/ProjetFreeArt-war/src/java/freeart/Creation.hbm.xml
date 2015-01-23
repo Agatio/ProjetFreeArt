@@ -14,7 +14,7 @@
         <property name="description" type="string">
             <column name="description" length="500" not-null="true" />
         </property>
-        <property name="file" type="binary">
+        <property name="file" type="string">
             <column name="file" not-null="true" />
         </property>
         <property name="idCategorie" type="int">
