@@ -31,15 +31,15 @@
         
         <ul>
             <c:forEach var="item" items="${categories}">
-                    <li><c:out value="${item}" /></li>
+                <img src="<c:out value="${item}" />" width="400px" height="300px"/>
             </c:forEach>
         </ul>
         
-        <script type="text/javascript">
+        <!--script type="text/javascript">
             window.onload = function(){
                 document.getElementById('cheat').submit();
             };
             
-        </script>
+        </script-->
     </body>
 </html>

@@ -99,7 +99,7 @@ public class CreationServlet extends HttpServlet {
             session.beginTransaction();
             List<Creation> alC = new ArrayList<>();
             List<String> noms = new ArrayList<String>();
-            
+            List<String> file = new ArrayList<String>();
             try
             {
                 alC = session.createQuery( "from Creation" ).list();
@@ -107,6 +107,7 @@ public class CreationServlet extends HttpServlet {
                 for(Creation crea : alC)
                 {
                     noms.add(crea.getNom());
+                    file.add(crea.getFile());
                 }
             } 
             catch (NumberFormatException ex)
@@ -114,7 +115,7 @@ public class CreationServlet extends HttpServlet {
                 alC = null;
             }
 
-                request.setAttribute("categories", noms);
+                request.setAttribute("categories", file);
 
                 RequestDispatcher rd = request
                                 .getRequestDispatcher("/index.jsp");
@@ -139,9 +140,11 @@ public class CreationServlet extends HttpServlet {
         response.setContentType("text/html");
         List<Creation> resCrea = freeart.EJBCreation.getCreations();
         Vector<String> noms = new Vector<String>();
+        Vector<String> file = new Vector<String>();
         for(Creation crea : resCrea)
         {
             noms.add(crea.getNom());
+            noms.add(crea.getFile());
         }
         
         System.out.println("<p>testest</p>");
