@@ -19,5 +19,6 @@
         <p>description : ${creationDetail.description}</p>
         <p>dimension : ${creationDetail.dimensFile}</p>
         <p>poids : ${creationDetail.poidsFile}</p>
+        <a href="${creationDetail.file}" download="${creationDetail.file}">dl</a>
     </body>
 </html>
