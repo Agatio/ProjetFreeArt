@@ -25,6 +25,7 @@
             
             <c:if test="${!empty sessionScope.sessionUtilisateur}">
                 <p class="connexion">Vous êtes connecté(e) sous le nom de : ${sessionScope.sessionUtilisateur}</p>
+                <a href="upload.jsp">Upload</a>
             </c:if>
             <c:if test="${empty sessionScope.sessionUtilisateur}">
                 <div class="connexion">
