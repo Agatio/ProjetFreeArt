@@ -10,12 +10,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Agatio
  */
 public class ConnexionServlet extends HttpServlet {
+    public static final String ATT_SESSION_USER = "sessionUtilisateur";
 
     /**
      * Processes requests for both HTTP
@@ -87,6 +89,11 @@ public class ConnexionServlet extends HttpServlet {
                 String url = request.getRequestURL().toString();
                 String baseURL = url.substring(0, url.length() - request.getRequestURI().length()) + request.getContextPath() + "/";
                 out.println("<p>Connexion reussie</p>");
+                
+                User utilis = new User(request.getParameter("login"), request.getParameter("password"));
+                HttpSession session = request.getSession();
+                session.setAttribute( ATT_SESSION_USER, request.getParameter("login") );                
+                
                 response.sendRedirect("index.jsp");
             }
             else

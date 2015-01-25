@@ -14,15 +14,28 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>FreeArt</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css" />
     </head>
     <body>
-        <h1>Hello World!</h1>
-        <p> coucou </p>
-        <p>Test Nath</p>
-        <span>Le poussin piou</span>  
-        <h1>i gwec</h1>
+        <header>
+            <h1>FreeArt /</h1>
+            
+            <c:if test="${!empty sessionScope.sessionUtilisateur}">
+                <p class="connexion">Vous êtes connecté(e) sous le nom de : ${sessionScope.sessionUtilisateur}</p>
+            </c:if>
+            <c:if test="${empty sessionScope.sessionUtilisateur}">
+                <div class="connexion">
+                    <a href="join.jsp">Join</a>
+                    <a href="login.jsp">Login</a>
+                </div>
+            </c:if>    
+        </header>
+        <fieldset>
+            <legend>Les dernières créations...</legend>
+        </fieldset>
         
         <form method="POST" action="CreationServlet" id="cheat">
             <input type="hidden" name="action" value="testNath"/>
@@ -34,12 +47,5 @@
                 <img src="<c:out value="${item}" />" width="400px" height="300px"/>
             </c:forEach>
         </ul>
-        
-        <!--script type="text/javascript">
-            window.onload = function(){
-                document.getElementById('cheat').submit();
-            };
-            
-        </script-->
     </body>
 </html>

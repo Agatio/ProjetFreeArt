@@ -4,9 +4,9 @@
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://db4free.net:3306/freeartgrobert?zeroDateTimeBehavior=convertToNull</property>
-    <property name="hibernate.connection.username">grobert</property>
-    <property name="hibernate.connection.password">grobert</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/freeartgrobert?zeroDateTimeBehavior=convertToNull</property>
+    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.connection.password"></property>
     <mapping resource="freeart/User.hbm.xml"/>
     <mapping resource="freeart/Tag.hbm.xml"/>
     <mapping resource="freeart/Categorie.hbm.xml"/>
