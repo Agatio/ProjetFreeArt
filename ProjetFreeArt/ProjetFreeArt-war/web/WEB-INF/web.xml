@@ -19,6 +19,10 @@
         <servlet-name>JoinServlet</servlet-name>
         <servlet-class>freeart.JoinServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AfficheDetailImgServlet</servlet-name>
+        <servlet-class>freeart.AfficheDetailImgServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ConnexionServlet</servlet-name>
         <url-pattern>/ConnexionServlet</url-pattern>
@@ -34,6 +38,10 @@
     <servlet-mapping>
         <servlet-name>JoinServlet</servlet-name>
         <url-pattern>/JoinServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AfficheDetailImgServlet</servlet-name>
+        <url-pattern>/AfficheDetailImgServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -44,7 +44,14 @@
         
         <ul>
             <c:forEach var="item" items="${categories}">
-                <img src="<c:out value="${item}" />" width="400px" height="300px"/>
+                <table>
+                    <tr>
+                        <td><a href="AfficheDetailImgServlet?chemin=${item}"><img src="<c:out value="${item}" />" width="400px" height="300px"/></a></td>
+                    </tr>
+                    <tr>
+                        <td>${item}</td>
+                    </tr>
+                </table>                
             </c:forEach>
         </ul>
     </body>
