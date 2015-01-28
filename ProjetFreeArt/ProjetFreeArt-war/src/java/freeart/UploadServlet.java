@@ -72,6 +72,7 @@ public class UploadServlet extends HttpServlet {
         int width;
         int height;
         String desc = "";
+        String nomImg = "";
         int w=0;
         int h=0;
         
@@ -82,7 +83,40 @@ public class UploadServlet extends HttpServlet {
               
                 for(FileItem item : multiparts){
                     if(!item.isFormField()){
-                        name = new File(item.getName()).getName();
+                        //name = new File(item.getName()).getName();
+                        
+                        List<Creation> lc = new ArrayList<Creation>();
+                        
+                        SessionFactory sessionFactory;
+
+                    // A SessionFactory is set up once for an application
+                    sessionFactory = new Configuration()
+                        .configure() // configures settings from hibernate.cfg.xml
+                        .buildSessionFactory();
+
+                    // create a couple of events...
+                    Session session = sessionFactory.openSession();
+                    session.beginTransaction();
+                    
+                    lc = session.createQuery( "select max(id) from Creation").list();
+
+                    
+                    session.getTransaction().commit();
+                    session.close();
+
+                    if ( sessionFactory != null ) {
+                        sessionFactory.close();
+                    }
+                    
+                        if(lc.get(0) == null)
+                        {
+                           name = "img0.jpg"; 
+                        }
+                        else
+                        {
+                            name = "img" + lc.get(0) +".jpg";
+                        }
+                        
                         item.write( new File(UPLOAD_DIRECTORY + File.separator + name));
                         poids = (int) item.getSize();
                         
@@ -92,7 +126,16 @@ public class UploadServlet extends HttpServlet {
                     }
                     else
                     {
-                        desc = item.getString();
+                        String fieldname = item.getFieldName();
+                        
+                        if (fieldname.equals("nomImg"))
+                        {
+                            nomImg = item.getString();
+                        }
+                        else
+                        {
+                            desc = item.getString();
+                        }                       
                     }
                 }
            
@@ -145,7 +188,7 @@ public class UploadServlet extends HttpServlet {
                     }
                     
                     
-                    Creation newCreation = new Creation(name, desc, "img/"+name, 0, propImg.getId(), aujourdhui, w+"x"+h, poids);
+                    Creation newCreation = new Creation(nomImg, desc, "img/"+name, 0, propImg.getId(), aujourdhui, w+"x"+h, poids);
                     session.save(newCreation);
 
                     session.getTransaction().commit();

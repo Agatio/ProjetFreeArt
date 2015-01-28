@@ -22,6 +22,7 @@
         
         <form action="UploadServlet" method="post" enctype="multipart/form-data">
                 <input type="file" name="file" /><br/>
+                <label>Nom de l'image : </label><input type="text" name="nomImg" />
                 <label>Description : </label><input type="text" name="descr" />
                 <input type="submit" value="upload" />
         </form>
