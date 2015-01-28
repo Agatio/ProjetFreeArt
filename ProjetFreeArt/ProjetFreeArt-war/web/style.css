@@ -99,3 +99,13 @@ fieldset
     margin-right: 5px;
     text-decoration: none;
 }
+
+table
+{
+    display: inline;
+}
+
+table img
+{
+    width: 300px;
+}

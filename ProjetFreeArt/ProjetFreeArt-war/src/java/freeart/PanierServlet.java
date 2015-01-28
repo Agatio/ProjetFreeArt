@@ -9,26 +9,20 @@ package freeart;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
 /**
  *
  * @author Nathalie
  */
-@WebServlet(name = "AfficheDetailImg", urlPatterns = {"/AfficheDetailImg"})
-public class AfficheDetailImgServlet extends HttpServlet {
-
-
+@WebServlet(name = "PanierServlet", urlPatterns = {"/PanierServlet"})
+public class PanierServlet extends HttpServlet {
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -43,40 +37,35 @@ public class AfficheDetailImgServlet extends HttpServlet {
             throws ServletException, IOException {
         
         PrintWriter out = response.getWriter();
-        response.setContentType("text/html");       
         
-        request.setAttribute("chemin", request.getParameter("chemin"));
+        out.println("Je suis dans le DOGET de PanierServlet !<br/>");
         
-        List<Creation> alC = new ArrayList<>();
-        SessionFactory sessionFactory;
-        sessionFactory = new Configuration()
-                .configure()
-                .buildSessionFactory();
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        alC = session.createQuery( "from Creation" ).list();
+        Cookie[] cookies = request.getCookies();
+        boolean cookieTrouve = false;
+        String ancienneValeur;
         
-        List<User> reqPropCreation = new ArrayList<User>();
-
-        for(Creation crea : alC)
+        if(cookies != null)
         {
-            if(crea.getFile().equals(request.getParameter("chemin")))
+            for(Cookie tousLesCookies : cookies)
             {
-                request.setAttribute("creationDetail", crea);
-                
-                reqPropCreation = session.createQuery( "from User where id=" + crea.getIdUser()).list();
-                    
-                    for(User nomProp : reqPropCreation)
-                    {
-                        request.setAttribute("nomUtilisateur", nomProp);
-                    }
+                if(tousLesCookies.getName().equals("listeImg"))
+                {
+                    cookieTrouve = true;
+                    ancienneValeur = tousLesCookies.getValue();
+                    tousLesCookies.setValue(ancienneValeur + ":" + request.getParameter("id"));
+                    response.addCookie(tousLesCookies);
+                }
             }
         }
         
-        RequestDispatcher rd = request
-                        .getRequestDispatcher("/detailImg.jsp");
-        rd.forward(request, response);
+        if(cookieTrouve == false)
+        {
+            Cookie cookie = new Cookie("listeImg", request.getParameter("id"));
+            cookie.setMaxAge(60*60*24*30);
+            response.addCookie(cookie);
+        } 
         
+        this.getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
     }
 
     /**
@@ -90,7 +79,7 @@ public class AfficheDetailImgServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
     }
 
     /**

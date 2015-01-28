@@ -6,6 +6,8 @@
 
 package freeart;
 
+import static freeart.ConnexionServlet.ATT_SESSION_USER;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -15,8 +17,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.*;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpSession;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -63,6 +68,12 @@ public class UploadServlet extends HttpServlet {
     {
         PrintWriter out = response.getWriter();
         String name = "";
+        int poids = 0;
+        int width;
+        int height;
+        String desc = "";
+        int w=0;
+        int h=0;
         
         if(ServletFileUpload.isMultipartContent(request)){
             try {
@@ -73,6 +84,15 @@ public class UploadServlet extends HttpServlet {
                     if(!item.isFormField()){
                         name = new File(item.getName()).getName();
                         item.write( new File(UPLOAD_DIRECTORY + File.separator + name));
+                        poids = (int) item.getSize();
+                        
+                        BufferedImage bi = javax.imageio.ImageIO.read(new File(UPLOAD_DIRECTORY + File.separator + name));
+                        w = bi.getWidth();
+                        h = bi.getHeight();
+                    }
+                    else
+                    {
+                        desc = item.getString();
                     }
                 }
            
@@ -98,7 +118,34 @@ public class UploadServlet extends HttpServlet {
                     Session session = sessionFactory.openSession();
                     session.beginTransaction();
                     
-                    Creation newCreation = new Creation(name, "", "img/"+name, 0, 0, new Date(), "0", 0);
+                    Calendar calendar = Calendar.getInstance();
+                    int day = calendar.get(Calendar.DAY_OF_MONTH);
+                    int annee = calendar.get(Calendar.YEAR);
+                    int mois = calendar.get(Calendar.MONTH);                
+                    java.sql.Date aujourdhui = new java.sql.Date(annee-1900, mois, day);
+                    
+                    
+                    HttpSession sessionUtilisateur = request.getSession();
+                    out.println("user = " + sessionUtilisateur.getAttribute("sessionUtilisateur"));
+                    
+                    List<User> alC = new ArrayList<User>();
+                    User propImg = null;
+                    try
+                    {
+                        alC = session.createQuery( "from User where login='" + sessionUtilisateur.getAttribute("sessionUtilisateur") + "'").list();
+
+                        for(User us : alC)
+                        {
+                            propImg = us;
+                        }
+                    } 
+                    catch (NumberFormatException ex)
+                    {
+                        alC = null;
+                    }
+                    
+                    
+                    Creation newCreation = new Creation(name, desc, "img/"+name, 0, propImg.getId(), aujourdhui, w+"x"+h, poids);
                     session.save(newCreation);
 
                     session.getTransaction().commit();
@@ -108,7 +155,11 @@ public class UploadServlet extends HttpServlet {
                         sessionFactory.close();
                     }
     
-        request.getRequestDispatcher("/index.jsp").forward(request, response);
+        //request.getRequestDispatcher("/index.jsp").forward(request, response);
+        
+        
+        
+        
      
     }
 

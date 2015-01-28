@@ -21,8 +21,9 @@
         </form>-->
         
         <form action="UploadServlet" method="post" enctype="multipart/form-data">
-                <input type="file" name="file" />
+                <input type="file" name="file" /><br/>
+                <label>Description : </label><input type="text" name="descr" />
                 <input type="submit" value="upload" />
-            </form>
+        </form>
     </body>
 </html>

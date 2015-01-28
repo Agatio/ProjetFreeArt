@@ -98,16 +98,22 @@ public class CreationServlet extends HttpServlet {
             Session session = sessionFactory.openSession();
             session.beginTransaction();
             List<Creation> alC = new ArrayList<>();
-            List<String> noms = new ArrayList<String>();
-            List<String> file = new ArrayList<String>();
+            List<User> reqPropCreation = new ArrayList<User>();
+            List<User> propCreation = new ArrayList<User>();
+            List<Creation> file = new ArrayList<Creation>();
             try
             {
                 alC = session.createQuery( "from Creation" ).list();
 
                 for(Creation crea : alC)
                 {
-                    noms.add(crea.getNom());
-                    file.add(crea.getFile());
+                    file.add(crea);//.getFile());
+                    reqPropCreation = session.createQuery( "from User where id=" + crea.getIdUser()).list();
+                    
+                    for(User nomProp : reqPropCreation)
+                    {
+                        propCreation.add(nomProp);
+                    }
                 }
             } 
             catch (NumberFormatException ex)
@@ -116,6 +122,7 @@ public class CreationServlet extends HttpServlet {
             }
 
                 request.setAttribute("categories", file);
+                request.setAttribute("nomUtilisateur", propCreation);
 
                 RequestDispatcher rd = request
                                 .getRequestDispatcher("/index.jsp");

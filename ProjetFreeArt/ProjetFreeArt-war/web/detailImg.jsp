@@ -17,8 +17,11 @@
         <img src="<c:out value="${creationDetail.file}" />"/>   
         <p>nom : ${creationDetail.nom}</p>
         <p>description : ${creationDetail.description}</p>
+        <p>Déposé par : ${nomUtilisateur.getLogin()}</p>
+        <p>Date dépôt : ${creationDetail.date}</p>
         <p>dimension : ${creationDetail.dimensFile}</p>
         <p>poids : ${creationDetail.poidsFile}</p>
-        <a href="${creationDetail.file}" download="${creationDetail.file}">dl</a>
+        <a href="PanierServlet?id=${creationDetail.file}">Ajouter l'image au panier</a>
+        <a href="${creationDetail.file}" download="${creationDetail.file}">Télécharger l'image directement</a>
     </body>
 </html>
