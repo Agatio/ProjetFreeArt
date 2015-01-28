@@ -6,11 +6,15 @@
 
 package freeart;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.System.in;
 import java.util.ArrayList;
 import java.util.List;
-import javax.servlet.RequestDispatcher;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -22,8 +26,9 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Nathalie
  */
-@WebServlet(name = "AfficherPanierServlet", urlPatterns = {"/AfficherPanierServlet"})
-public class AfficherPanierServlet extends HttpServlet {
+@WebServlet(name = "TelechargerPanierServlet", urlPatterns = {"/TelechargerPanierServlet"})
+public class TelechargerPanierServlet extends HttpServlet {
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -38,7 +43,13 @@ public class AfficherPanierServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        String UPLOAD_DIRECTORY = this.getClass().getResource('/' + this.getClass().getName().replace('.', '/') + ".class").toString().substring(6,97) + "web/";
+
+        
         PrintWriter out = response.getWriter();
+        
+        out.println("Kikoo panier");
+        
         String listePanier = "";
         String[] imgDansPanier;
         List<Creation> maListeImage = new ArrayList<Creation>();
@@ -59,9 +70,6 @@ public class AfficherPanierServlet extends HttpServlet {
         }
         
         imgDansPanier = listePanier.split(":");
-        
-        out.println("Votre panier contient : ");
-        
        
         for(Creation toutesLesCreations : resCrea)
         {
@@ -76,11 +84,32 @@ public class AfficherPanierServlet extends HttpServlet {
         
         
         
-        request.setAttribute("monPanier", maListeImage);
         
-        RequestDispatcher rd = request
-                                .getRequestDispatcher("/afficherPanier.jsp");
-                rd.forward(request, response);
+        List<FileInputStream> allin = new ArrayList<FileInputStream>();
+        
+        ZipOutputStream outp = new ZipOutputStream(new FileOutputStream(UPLOAD_DIRECTORY + "img/tempZip.zip"));
+        
+        for(Creation crea : maListeImage)
+        {
+            allin.add(new FileInputStream(UPLOAD_DIRECTORY + crea.getFile()));
+            outp.putNextEntry(new ZipEntry(crea.getFile()));
+        }
+        
+        // buffer size
+        byte[] b = new byte[1024];
+        int count;
+
+        for(FileInputStream in : allin)
+        {
+            while ((count = in.read(b)) > 0) {
+                System.out.println();
+                outp.write(b, 0, count);
+            }
+        }
+        
+        
+        outp.close();
+        in.close();
     }
 
     /**

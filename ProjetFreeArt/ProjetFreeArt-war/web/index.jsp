@@ -27,13 +27,13 @@
             <c:if test="${!empty sessionScope.sessionUtilisateur}">
                 <p class="connexion">Vous êtes connecté(e) sous le nom de : ${sessionScope.sessionUtilisateur}</p>
                 <a href="upload.jsp">Upload</a>
-                <a>Afficher mon panier</a>
+                <a href="AfficherPanierServlet">Afficher mon panier</a>
             </c:if>
             <c:if test="${empty sessionScope.sessionUtilisateur}">
                 <div class="connexion">
                     <a href="join.jsp">Join</a>
                     <a href="login.jsp">Login</a>
-                    <a>Afficher mon panier</a>
+                    <a href="AfficherPanierServlet">Afficher mon panier</a>
                 </div>
             </c:if>    
         </header>
