@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,73 +21,15 @@ import org.hibernate.cfg.Configuration;
  *
  * @author Agatio
  */
-public class CreationServlet extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP
-     * <code>GET</code> and
-     * <code>POST</code> methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet CreationServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet CreationServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally { 
-            this.getServletContext().getRequestDispatcher( "/index.jsp" ).forward( request, response );
-            out.close();
-        }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP
-     * <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP
-     * <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+public class CreationServlet extends HttpServlet
+{
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        //processRequest(request, response);
-        
+            throws ServletException, IOException
+    {
         PrintWriter out = response.getWriter();
         String action = request.getParameter("action");
-        
+
         if (action.equals("testNath"))
         {
             SessionFactory sessionFactory;
@@ -104,115 +45,85 @@ public class CreationServlet extends HttpServlet {
             List<Creation> file = new ArrayList<Creation>();
             try
             {
-                alC = session.createQuery( "from Creation" ).list();
+                alC = session.createQuery("from Creation").list();
 
-                for(Creation crea : alC)
+                for (Creation crea : alC)
                 {
-                    file.add(crea);//.getFile());
-                    reqPropCreation = session.createQuery( "from User where id=" + crea.getIdUser()).list();
-                    
-                    for(User nomProp : reqPropCreation)
+                    file.add(crea);
+                    reqPropCreation = session.createQuery("from User where id=" + crea.getIdUser()).list();
+
+                    for (User nomProp : reqPropCreation)
                     {
                         propCreation.add(nomProp);
                     }
                 }
-            } 
-            catch (NumberFormatException ex)
+            } catch (NumberFormatException ex)
             {
                 alC = null;
             }
 
-                request.setAttribute("categories", file);
-                request.setAttribute("nomUtilisateur", propCreation);
-
-                RequestDispatcher rd = request
-                                .getRequestDispatcher("/index.jsp");
-                rd.forward(request, response);
-        }
-        else if(action.equals("afficherParCat"))
-        {
-            out.println("J'ai affiché les catégories");
-            
-            
-            List<User> reqPropCreation = new ArrayList<User>();
-            List<User> propCreation = new ArrayList<User>();
-            
-            SessionFactory sessionFactory;
-
-            sessionFactory = new Configuration()
-                    .configure()
-                    .buildSessionFactory();
-            Session session = sessionFactory.openSession();
-            session.beginTransaction();
-            List<Categorie> listCate = new ArrayList<>();
-            
-            try
-            {
-                listCate = session.createQuery( "from Categorie" ).list();
-            } 
-            catch (NumberFormatException ex)
-            {
-                listCate = null;
-            }
-            
-            List<Creation> listCreations = new ArrayList<>();
-            
-            try
-            {
-                listCreations = session.createQuery( "from Creation" ).list();
-                
-                for(Creation crea : listCreations)
-                {
-                    reqPropCreation = session.createQuery( "from User where id=" + crea.getIdUser()).list();
-                    
-                    for(User nomProp : reqPropCreation)
-                    {
-                        propCreation.add(nomProp);
-                    }
-                }
-            } 
-            catch (NumberFormatException ex)
-            {
-                listCreations = null;
-            }
-            
-            request.setAttribute("lesCategories", listCate);
-            request.setAttribute("lesCreations", listCreations);
+            request.setAttribute("categories", file);
             request.setAttribute("nomUtilisateur", propCreation);
 
             RequestDispatcher rd = request
-                            .getRequestDispatcher("/index.jsp");
-            rd.forward(request, response);  
+                    .getRequestDispatcher("/index.jsp");
+            rd.forward(request, response);
+        } else
+        {
+            if (action.equals("afficherParCat"))
+            {
+                List<User> reqPropCreation = new ArrayList<User>();
+                List<User> propCreation = new ArrayList<User>();
+                SessionFactory sessionFactory;
+                sessionFactory = new Configuration()
+                        .configure()
+                        .buildSessionFactory();
+                Session session = sessionFactory.openSession();
+                session.beginTransaction();
+                List<Categorie> listCate = new ArrayList<>();
+
+                try
+                {
+                    listCate = session.createQuery("from Categorie").list();
+                } catch (NumberFormatException ex)
+                {
+                    listCate = null;
+                }
+
+                List<Creation> listCreations = new ArrayList<>();
+
+                try
+                {
+                    listCreations = session.createQuery("from Creation").list();
+
+                    for (Creation crea : listCreations)
+                    {
+                        reqPropCreation = session.createQuery("from User where id=" + crea.getIdUser()).list();
+
+                        for (User nomProp : reqPropCreation)
+                        {
+                            propCreation.add(nomProp);
+                        }
+                    }
+                } catch (NumberFormatException ex)
+                {
+                    listCreations = null;
+                }
+
+                request.setAttribute("lesCategories", listCate);
+                request.setAttribute("lesCreations", listCreations);
+                request.setAttribute("nomUtilisateur", propCreation);
+
+                RequestDispatcher rd = request
+                        .getRequestDispatcher("/index.jsp");
+                rd.forward(request, response);
+            }
         }
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-    
-    public static /*List<Creation>*/void getCreations(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException 
+    public String getServletInfo()
     {
-        PrintWriter out = response.getWriter();
-        response.setContentType("text/html");
-        List<Creation> resCrea = freeart.EJBCreation.getCreations();
-        Vector<String> noms = new Vector<String>();
-        Vector<String> file = new Vector<String>();
-        for(Creation crea : resCrea)
-        {
-            noms.add(crea.getNom());
-            noms.add(crea.getFile());
-        }
-        
-        System.out.println("<p>testest</p>");
-        
-        request.setAttribute("listcrea", resCrea);
-        //return resCrea;
+        return "Short description";
     }
 }
