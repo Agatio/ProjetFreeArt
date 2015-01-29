@@ -41,8 +41,13 @@
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li>
-                                <a>Vous êtes connecté(e) sous le nom de : ${sessionScope.sessionUtilisateur}</a>
+                                <a style="text-decoration: none;">Vous êtes connecté(e) sous le nom de : ${sessionScope.sessionUtilisateur}</a>
+                                <form method="post" action="ConnexionServlet">
+                                    <a href="javascript:;" onclick="parentNode.submit();">Deconnexion</a>
+                                    <input type="hidden" name="action" value="logout">
+                                </form>
                             </li>
+                                
                         </ul>
                     </c:if>
                     <c:if test="${empty sessionScope.sessionUtilisateur}">

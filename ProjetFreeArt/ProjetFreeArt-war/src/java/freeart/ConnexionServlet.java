@@ -49,6 +49,12 @@ public class ConnexionServlet extends HttpServlet
                 out.println("<p>Connexion impossible</p>");
             }
         }
+        else if(action.equals("logout"))
+        {
+            HttpSession session = request.getSession();
+            session.invalidate();
+            response.sendRedirect("index.jsp");
+        }
     }
 
     @Override
