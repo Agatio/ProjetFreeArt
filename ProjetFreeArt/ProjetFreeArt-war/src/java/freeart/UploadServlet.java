@@ -33,7 +33,8 @@ import org.hibernate.cfg.Configuration;
 public class UploadServlet extends HttpServlet
 {
     String test = this.getClass().getResource('/' + this.getClass().getName().replace('.', '/') + ".class").toString();
-    private final String UPLOAD_DIRECTORY = test.substring(6, test.length()-61) + "web/"; 
+    private final String UPLOAD_DIRECTORY = test.substring(6, test.length()-53) + "web/img"; 
+    
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
