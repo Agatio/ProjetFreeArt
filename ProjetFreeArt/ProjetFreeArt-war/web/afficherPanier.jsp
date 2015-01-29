@@ -10,11 +10,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>FreeArt</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
-        
         <c:forEach var="item" items="${monPanier}">
             <table>
                 <tr>
@@ -22,9 +20,6 @@
                 </tr>
                 <tr>
                     <td>${item.getNom()}</td>
-                </tr>
-                <tr>
-                    <td>chèvre</td>
                 </tr>
             </table>   
         </c:forEach>

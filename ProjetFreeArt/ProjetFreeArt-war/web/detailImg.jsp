@@ -10,10 +10,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>FreeArt</title>
     </head>
     <body>
-        <p>test</p>
         <img src="<c:out value="${creationDetail.file}" />"/>   
         <p>nom : ${creationDetail.nom}</p>
         <p>description : ${creationDetail.description}</p>

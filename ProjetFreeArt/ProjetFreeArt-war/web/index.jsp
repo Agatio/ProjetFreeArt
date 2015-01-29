@@ -9,16 +9,12 @@
 <%@page import="freeart.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%
-    //freeart.CreationServlet
-    %>
 <!DOCTYPE html>
 <html>
     <head>
         <title>FreeArt</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!--link rel="stylesheet" href="style.css" /-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
@@ -96,9 +92,6 @@
             <h2>${itemCategorie.getNom()}</h2>
             <c:forEach var="itemCreation" items="${lesCreations}" varStatus="status">                
                 <c:if test="${itemCategorie.getId() == itemCreation.getIdCategorie()}"> 
-                    <!--table>
-                        <tr>
-                            <td-->
                         <div class="row">
                             <div class="col-sm-6 col-md-4">
                                 <div class="thumbnail">
@@ -108,12 +101,6 @@
                                     <h4>${itemCreation.getNom()}</h4>
                                     <p>déposé par ${nomUtilisateur[status.index].getLogin()}</p>
                                 </div>
-                            <!--/td>
-                        </tr-->
-                        <!--tr>
-                           <td><a class="thumbnail" href="AfficheDetailImgServlet?chemin=${itemCreation.getFile()}"><img src="<c:out value="${itemCreation.getFile()}" />"/></a></td>
-                        </tr>   
-                </table--> 
                             </div>
                         </div>
                 </c:if> 

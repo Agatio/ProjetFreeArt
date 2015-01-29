@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Join us</title>
+        <title>FreeAert</title>
         <link rel="stylesheet" href="styleJoinAndLogin.css" />
     </head>
     <body>
@@ -26,4 +26,3 @@
         </div>
     </body>
 </html>
-
