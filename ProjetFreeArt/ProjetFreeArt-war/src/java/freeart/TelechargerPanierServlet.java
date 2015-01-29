@@ -6,7 +6,9 @@
 
 package freeart;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -82,36 +84,9 @@ public class TelechargerPanierServlet extends HttpServlet {
             }
         }
         
-        
-        
-        
-        List<FileInputStream> allin = new ArrayList<FileInputStream>();
-        
-        ZipOutputStream outp = new ZipOutputStream(new FileOutputStream(UPLOAD_DIRECTORY + "img/tempZip.zip"));
-        
-        for(Creation crea : maListeImage)
-        {
-            allin.add(new FileInputStream(UPLOAD_DIRECTORY + crea.getFile()));
-            outp.putNextEntry(new ZipEntry(crea.getFile()));
-        }
-        
-        // buffer size
-        byte[] b = new byte[1024];
-        int count;
-
-        for(FileInputStream in : allin)
-        {
-            while ((count = in.read(b)) > 0) {
-                System.out.println();
-                outp.write(b, 0, count);
-            }
-        }
-        
-        
-        outp.close();
-        in.close();
+               
     }
-
+    
     /**
      * Handles the HTTP <code>POST</code> method.
      *

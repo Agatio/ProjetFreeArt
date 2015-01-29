@@ -28,6 +28,6 @@
                 </tr>
             </table>   
         </c:forEach>
-        <a href="TelechargerPanierServlet">Télécharger le panier</a>
+        <a href="img/tempZip.zip" download="img/tempZip.zip">Télécharger le panier</a>
     </body>
 </html>

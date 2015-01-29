@@ -6,10 +6,15 @@
 
 package freeart;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.System.in;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -73,6 +78,73 @@ public class AfficherPanierServlet extends HttpServlet {
                 }
             }
         }
+        
+        
+        
+        String UPLOAD_DIRECTORY = this.getClass().getResource('/' + this.getClass().getName().replace('.', '/') + ".class").toString().substring(6,97) + "web/";
+
+        
+        /*List<FileInputStream> allin = new ArrayList<FileInputStream>();
+        
+        ZipOutputStream outp = new ZipOutputStream(new FileOutputStream(UPLOAD_DIRECTORY + "img/tempZip.zip"));
+        
+        for(Creation crea : maListeImage)
+        {
+            allin.add(new FileInputStream(UPLOAD_DIRECTORY + crea.getFile()));
+            outp.putNextEntry(new ZipEntry(crea.getFile()));
+        }
+        
+        // buffer size
+        byte[] b = new byte[1024];
+        int count;
+
+        for(FileInputStream in : allin)
+        {
+            while ((count = in.read(b)) > 0) {
+                System.out.println();
+                outp.write(b, 0, count);
+            }
+        }
+        
+        
+        outp.close();
+        in.close();*/
+        
+        List<FileInputStream> allin = new ArrayList<FileInputStream>();
+        
+        ZipOutputStream outp = new ZipOutputStream(new FileOutputStream(UPLOAD_DIRECTORY + "img/tempZip.zip"));
+        
+        for(Creation crea : maListeImage)
+        {
+            allin.add(new FileInputStream(UPLOAD_DIRECTORY + crea.getFile()));
+            outp.putNextEntry(new ZipEntry(crea.getFile()));
+            byte[] b = new byte[1024];
+        int count;
+
+        for(FileInputStream in : allin)
+        {
+            while ((count = in.read(b)) > 0) {
+                outp.write(b, 0, count);
+            }
+        }
+        }
+        
+        
+        outp.close();
+        in.close(); 
+       
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         
