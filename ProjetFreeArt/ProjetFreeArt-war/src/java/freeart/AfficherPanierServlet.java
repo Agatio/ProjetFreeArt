@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package freeart;
 
 import java.io.FileInputStream;
@@ -27,156 +26,80 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Nathalie
  */
-@WebServlet(name = "AfficherPanierServlet", urlPatterns = {"/AfficherPanierServlet"})
-public class AfficherPanierServlet extends HttpServlet {
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+@WebServlet(name = "AfficherPanierServlet", urlPatterns={"/AfficherPanierServlet"})
+public class AfficherPanierServlet extends HttpServlet
+{
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
+            throws ServletException, IOException
+    {
+
         PrintWriter out = response.getWriter();
         String listePanier = "";
         String[] imgDansPanier;
         List<Creation> maListeImage = new ArrayList<Creation>();
         List<Creation> resCrea = freeart.EJBCreation.getCreations();
-        
-        out.println("Je suis dans afficherPanier");        
         Cookie[] cookies = request.getCookies();
-                
-        if(cookies != null)
+
+        if (cookies != null)
         {
-            for(Cookie tousLesCookies : cookies)
+            for (Cookie tousLesCookies : cookies)
             {
-                if(tousLesCookies.getName().equals("listeImg"))
+                if (tousLesCookies.getName().equals("listeImg"))
                 {
                     listePanier = tousLesCookies.getValue();
                 }
             }
         }
-        
+
         imgDansPanier = listePanier.split(":");
-        
-        out.println("Votre panier contient : ");
-        
-       
-        for(Creation toutesLesCreations : resCrea)
+
+        for (Creation toutesLesCreations : resCrea)
         {
-            for(String lienImg : imgDansPanier)
+            for (String lienImg : imgDansPanier)
             {
-                if(toutesLesCreations.getFile().equals(lienImg))
+                if (toutesLesCreations.getFile().equals(lienImg))
                 {
                     maListeImage.add(toutesLesCreations);
                 }
             }
         }
-        
-        
-        
-        String UPLOAD_DIRECTORY = this.getClass().getResource('/' + this.getClass().getName().replace('.', '/') + ".class").toString().substring(6,97) + "web/";
 
-        
-        /*List<FileInputStream> allin = new ArrayList<FileInputStream>();
-        
-        ZipOutputStream outp = new ZipOutputStream(new FileOutputStream(UPLOAD_DIRECTORY + "img/tempZip.zip"));
-        
-        for(Creation crea : maListeImage)
-        {
-            allin.add(new FileInputStream(UPLOAD_DIRECTORY + crea.getFile()));
-            outp.putNextEntry(new ZipEntry(crea.getFile()));
-        }
-        
-        // buffer size
-        byte[] b = new byte[1024];
-        int count;
+        String UPLOAD_DIRECTORY = this.getClass().getResource('/' + this.getClass().getName().replace('.', '/') + ".class").toString().substring(6, 97) + "web/";
 
-        for(FileInputStream in : allin)
-        {
-            while ((count = in.read(b)) > 0) {
-                System.out.println();
-                outp.write(b, 0, count);
-            }
-        }
-        
-        
-        outp.close();
-        in.close();*/
-        
         List<FileInputStream> allin = new ArrayList<FileInputStream>();
-        
+
         ZipOutputStream outp = new ZipOutputStream(new FileOutputStream(UPLOAD_DIRECTORY + "img/tempZip.zip"));
-        
-        for(Creation crea : maListeImage)
+
+        for (Creation crea : maListeImage)
         {
             allin.add(new FileInputStream(UPLOAD_DIRECTORY + crea.getFile()));
             outp.putNextEntry(new ZipEntry(crea.getFile()));
             byte[] b = new byte[1024];
-        int count;
+            int count;
 
-        for(FileInputStream in : allin)
-        {
-            while ((count = in.read(b)) > 0) {
-                outp.write(b, 0, count);
+            for (FileInputStream in : allin)
+            {
+                while ((count = in.read(b)) > 0)
+                {
+                    outp.write(b, 0, count);
+                }
             }
         }
-        }
-        
-        
+
         outp.close();
-        in.close(); 
-       
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        in.close();
+
         request.setAttribute("monPanier", maListeImage);
-        
+
         RequestDispatcher rd = request
-                                .getRequestDispatcher("/afficherPanier.jsp");
-                rd.forward(request, response);
+                .getRequestDispatcher("/afficherPanier.jsp");
+        rd.forward(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
+    public String getServletInfo()
+    {
         return "Short description";
-    }// </editor-fold>
-
+    }
 }
