@@ -106,5 +106,10 @@
                 </c:if> 
             </c:forEach>
         </c:forEach>
+            
+            <form method="POST" action="RechercheImageServlet">
+                <input type="text" name="recherche" placeholder="Votre recherche"/>
+                <input type="submit" value="Lancer la recherche"/>
+            </form>
     </body>
 </html>
