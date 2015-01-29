@@ -12,10 +12,10 @@
             <column name="contenu" length="500" not-null="true" />
         </property>
         <property name="idUser" type="int">
-            <column name="id_user" not-null="true" />
+            <column name="idUser" not-null="true" />
         </property>
         <property name="idCreation" type="int">
-            <column name="id_creation" not-null="true" />
+            <column name="idCreation" not-null="true" />
         </property>
         <property name="date" type="date">
             <column name="date" length="10" not-null="true" />

@@ -6,21 +6,16 @@ package freeart;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.Stateful;
-import javax.ejb.LocalBean;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 /**
  *
- * @author Agatio
+ * @author Windows
  */
-@Stateful
-@LocalBean
-public class EJBCategorie {
-
-    public static List<Categorie> getCategories() {
+public class EJBUser {
+            public static List<User> getUsers() {
         SessionFactory sessionFactory;
 
         // A SessionFactory is set up once for an application
@@ -31,19 +26,18 @@ public class EJBCategorie {
         // create a couple of events...
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        List<Categorie> alC = new ArrayList<>();
+        List<User> listUser = new ArrayList<>();
         try {
-            alC = session.createQuery( "from Categorie" ).list();
+            listUser = session.createQuery( "from User" ).list();
         } 
         catch (NumberFormatException ex) {
-            alC = null;
+            listUser = null;
         }
         
         session.getTransaction().commit();
         session.close();
         
         sessionFactory.close();
-        return alC;
+        return listUser;
     }
-
 }

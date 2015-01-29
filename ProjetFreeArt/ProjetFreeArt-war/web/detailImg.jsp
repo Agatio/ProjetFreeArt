@@ -10,9 +10,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>FreeArt</title>
+        <title>JSP Page</title>
     </head>
     <body>
+        <p>test</p>
         <img src="<c:out value="${creationDetail.file}" />"/>   
         <p>nom : ${creationDetail.nom}</p>
         <p>description : ${creationDetail.description}</p>
@@ -20,6 +21,26 @@
         <p>Date dépôt : ${creationDetail.date}</p>
         <p>dimension : ${creationDetail.dimensFile}</p>
         <p>poids : ${creationDetail.poidsFile}</p>
+        
+        <ul> Commentaires : </ul>
+        <c:forEach var="itemCom" items="${listcom}" varStatus="status">
+                <li><c:if test="${itemCom.getIdCreation() == creationDetail.getId()}">
+                    <li>
+                        <ul> 
+                            <li> ${itemCom.getDate()} </li>
+                            <c:forEach var="itemUser" items="${listuser}" varStatus="status">
+                                <c:if test="${itemCom.getIdUser() == itemUser.getId()}">
+                                     <li> ${itemUser.getLogin()} </li>
+                                </c:if> 
+                             </c:forEach>
+                            <li> ${itemCom.getContenu()} </li>
+                        </ul>
+                    </li>
+                </c:if> 
+
+        </c:forEach>
+
+        
         <a href="PanierServlet?id=${creationDetail.file}">Ajouter l'image au panier</a>
         <a href="${creationDetail.file}" download="${creationDetail.file}">Télécharger l'image directement</a>
     </body>

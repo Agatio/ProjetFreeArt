@@ -75,7 +75,26 @@ public class JoinServlet extends HttpServlet {
                     session.beginTransaction();
 
                     User newUser = new User(request.getParameter("login"), request.getParameter("password"));
-                    session.save(newUser);
+                    List loginUser = session.createQuery( "from User" ).list();
+                    Boolean exist =false;
+                    
+                    for ( User u : (List<User>) loginUser )
+                    {
+                         if(u.getLogin().equals(newUser.getLogin()))
+                         {
+                             exist=true;
+                         }
+                    }
+                    
+                    if(exist==true)
+                    {
+                        out.println("<p>Login existant</p>");
+                    }
+                    else
+                    {
+                        session.save(newUser);
+                        response.sendRedirect("index.jsp");
+                    }
 
                     session.getTransaction().commit();
                     session.close();
@@ -84,7 +103,7 @@ public class JoinServlet extends HttpServlet {
                         sessionFactory.close();
                     }
 		}
-                response.sendRedirect("index.jsp");
+                
     }
 
     /**
