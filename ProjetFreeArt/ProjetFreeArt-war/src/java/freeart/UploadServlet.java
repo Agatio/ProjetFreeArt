@@ -112,13 +112,17 @@ public class UploadServlet extends HttpServlet
                         {
                             sessionFactory.close();
                         }
+                        
+                        String testnom = item.getName();
+                        String ext[] = testnom.split("\\.");
+                        String exten = ext[ext.length-1];
 
                         if (lc.get(0) == null)
                         {
-                            name = "img0.jpg";
+                            name = "img0." + exten;
                         } else
                         {
-                            name = "img" + lc.get(0) + ".jpg";
+                            name = "img" + lc.get(0) + "." + exten;
                         }
 
                         item.write(new File(UPLOAD_DIRECTORY + File.separator + name));
