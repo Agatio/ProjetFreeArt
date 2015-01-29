@@ -65,7 +65,8 @@ public class AfficherPanierServlet extends HttpServlet
             }
         }
 
-        String UPLOAD_DIRECTORY = this.getClass().getResource('/' + this.getClass().getName().replace('.', '/') + ".class").toString().substring(6, 97) + "web/";
+        String test = this.getClass().getResource('/' + this.getClass().getName().replace('.', '/') + ".class").toString();
+        String UPLOAD_DIRECTORY = test.substring(6, test.length()-61) + "web/";       
 
         List<FileInputStream> allin = new ArrayList<FileInputStream>();
 

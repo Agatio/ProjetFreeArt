@@ -32,8 +32,9 @@ import org.hibernate.cfg.Configuration;
 @WebServlet(name = "UploadServlet", urlPatterns={"/UploadServlet"})
 public class UploadServlet extends HttpServlet
 {
-    private final String UPLOAD_DIRECTORY = this.getClass().getResource('/' + this.getClass().getName().replace('.', '/') + ".class").toString().substring(6, 97) + "web/img";
-
+    String test = this.getClass().getResource('/' + this.getClass().getName().replace('.', '/') + ".class").toString();
+    private final String UPLOAD_DIRECTORY = test.substring(6, test.length()-61) + "web/"; 
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
