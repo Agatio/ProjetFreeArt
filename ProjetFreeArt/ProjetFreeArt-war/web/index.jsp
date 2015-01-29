@@ -26,7 +26,7 @@
             
             <c:if test="${!empty sessionScope.sessionUtilisateur}">
                 <p class="connexion">Vous êtes connecté(e) sous le nom de : ${sessionScope.sessionUtilisateur}</p>
-                <a href="upload.jsp">Upload</a>
+                <a href="UploadServlet">Upload</a>
                 <a href="AfficherPanierServlet">Afficher mon panier</a>
             </c:if>
             <c:if test="${empty sessionScope.sessionUtilisateur}">
@@ -43,7 +43,12 @@
         
         <form method="POST" action="CreationServlet" id="cheat">
             <input type="hidden" name="action" value="testNath"/>
-            <input type="submit" value="Afficher les noms d'images"/>
+            <input type="submit" value="Afficher les images"/>
+        </form>
+        
+        <form method="POST" action="CreationServlet" id="cheat">
+            <input type="hidden" name="action" value="afficherParCat"/>
+            <input type="submit" value="Afficher les images par catégories"/>
         </form>
         
         <ul>
@@ -58,5 +63,22 @@
                 </table>                
             </c:forEach>
         </ul>
+        
+        <c:forEach var="itemCategorie" items="${lesCategories}">
+            <p>${itemCategorie.getNom()}</p>
+            <c:forEach var="itemCreation" items="${lesCreations}" varStatus="status">                
+                <c:if test="${itemCategorie.getId() == itemCreation.getIdCategorie()}"> 
+                    <p>${itemCreation.getNom()}</p>
+                    <table>
+                    <tr>
+                        <td><a href="AfficheDetailImgServlet?chemin=${itemCreation.getFile()}"><img src="<c:out value="${itemCreation.getFile()}" />"/></a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="AfficheDetailImgServlet?chemin=${itemCreation.getFile()}">${itemCreation.getNom()}</a> déposé par ${nomUtilisateur[status.index].getLogin()}</td>
+                    </tr>
+                </table> 
+                </c:if> 
+            </c:forEach>
+        </c:forEach>
     </body>
 </html>

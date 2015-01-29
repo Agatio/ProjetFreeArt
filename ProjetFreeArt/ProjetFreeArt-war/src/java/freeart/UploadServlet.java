@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.imageio.ImageIO;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -52,6 +53,39 @@ public class UploadServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        PrintWriter out = response.getWriter();
+        out.println("Je suis dans le goget de servletupload");
+        
+        SessionFactory sessionFactory;
+
+            sessionFactory = new Configuration()
+                    .configure()
+                    .buildSessionFactory();
+            Session session = sessionFactory.openSession();
+            session.beginTransaction();
+            List<Categorie> lc = new ArrayList<>();
+            List<Categorie> listeCat = new ArrayList<Categorie>();
+            
+            try
+            {
+                lc = session.createQuery( "from Categorie" ).list();
+
+                for(Categorie cat : lc)
+                {
+                    listeCat.add(cat);//.getFile());
+                }
+            } 
+            catch (NumberFormatException ex)
+            {
+                lc = null;
+            }
+
+                request.setAttribute("cat", listeCat);
+
+                RequestDispatcher rd = request
+                                .getRequestDispatcher("/upload.jsp");
+                rd.forward(request, response);
+        
     }
 
     /**
@@ -73,6 +107,7 @@ public class UploadServlet extends HttpServlet {
         int height;
         String desc = "";
         String nomImg = "";
+        int categorieId = -1;
         int w=0;
         int h=0;
         
@@ -132,6 +167,10 @@ public class UploadServlet extends HttpServlet {
                         {
                             nomImg = item.getString();
                         }
+                        else if(fieldname.equals("catImg"))
+                        {
+                            categorieId = Integer.parseInt(item.getString());
+                        }
                         else
                         {
                             desc = item.getString();
@@ -188,7 +227,7 @@ public class UploadServlet extends HttpServlet {
                     }
                     
                     
-                    Creation newCreation = new Creation(nomImg, desc, "img/"+name, 0, propImg.getId(), aujourdhui, w+"x"+h, poids);
+                    Creation newCreation = new Creation(nomImg, desc, "img/"+name, categorieId, propImg.getId(), aujourdhui, w+"x"+h, poids);
                     session.save(newCreation);
 
                     session.getTransaction().commit();

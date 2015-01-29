@@ -86,6 +86,7 @@ public class CreationServlet extends HttpServlet {
             throws ServletException, IOException {
         //processRequest(request, response);
         
+        PrintWriter out = response.getWriter();
         String action = request.getParameter("action");
         
         if (action.equals("testNath"))
@@ -127,6 +128,61 @@ public class CreationServlet extends HttpServlet {
                 RequestDispatcher rd = request
                                 .getRequestDispatcher("/index.jsp");
                 rd.forward(request, response);
+        }
+        else if(action.equals("afficherParCat"))
+        {
+            out.println("J'ai affiché les catégories");
+            
+            
+            List<User> reqPropCreation = new ArrayList<User>();
+            List<User> propCreation = new ArrayList<User>();
+            
+            SessionFactory sessionFactory;
+
+            sessionFactory = new Configuration()
+                    .configure()
+                    .buildSessionFactory();
+            Session session = sessionFactory.openSession();
+            session.beginTransaction();
+            List<Categorie> listCate = new ArrayList<>();
+            
+            try
+            {
+                listCate = session.createQuery( "from Categorie" ).list();
+            } 
+            catch (NumberFormatException ex)
+            {
+                listCate = null;
+            }
+            
+            List<Creation> listCreations = new ArrayList<>();
+            
+            try
+            {
+                listCreations = session.createQuery( "from Creation" ).list();
+                
+                for(Creation crea : listCreations)
+                {
+                    reqPropCreation = session.createQuery( "from User where id=" + crea.getIdUser()).list();
+                    
+                    for(User nomProp : reqPropCreation)
+                    {
+                        propCreation.add(nomProp);
+                    }
+                }
+            } 
+            catch (NumberFormatException ex)
+            {
+                listCreations = null;
+            }
+            
+            request.setAttribute("lesCategories", listCate);
+            request.setAttribute("lesCreations", listCreations);
+            request.setAttribute("nomUtilisateur", propCreation);
+
+            RequestDispatcher rd = request
+                            .getRequestDispatcher("/index.jsp");
+            rd.forward(request, response);  
         }
     }
 
