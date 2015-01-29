@@ -18,25 +18,53 @@
         <title>FreeArt</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="style.css" />
+        <!--link rel="stylesheet" href="style.css" /-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.2/flatly/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     </head>
     <body>
-        <header>
-            <h1>FreeArt /</h1>
-            
-            <c:if test="${!empty sessionScope.sessionUtilisateur}">
-                <p class="connexion">Vous êtes connecté(e) sous le nom de : ${sessionScope.sessionUtilisateur}</p>
-                <a href="UploadServlet">Upload</a>
-                <a href="AfficherPanierServlet">Afficher mon panier</a>
-            </c:if>
-            <c:if test="${empty sessionScope.sessionUtilisateur}">
-                <div class="connexion">
-                    <a href="join.jsp">Join</a>
-                    <a href="login.jsp">Login</a>
-                    <a href="AfficherPanierServlet">Afficher mon panier</a>
+        <div class="navbar navbar-default navbar-static-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a href="index.jsp" class="navbar-brand">FreeArt /</a>
                 </div>
-            </c:if>    
-        </header>
+                
+                <nav class="navbar-collapse">
+                    <c:if test="${!empty sessionScope.sessionUtilisateur}">
+                        <ul class="nav navbar-nav">
+                            
+                            <li>
+                                <a href="UploadServlet">Upload</a>
+                            </li>
+                            <li>
+                                <a href="AfficherPanierServlet">Afficher mon panier</a>
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <a>Vous êtes connecté(e) sous le nom de : ${sessionScope.sessionUtilisateur}</a>
+                            </li>
+                        </ul>
+                    </c:if>
+                    <c:if test="${empty sessionScope.sessionUtilisateur}">
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a href="join.jsp">Join</a>
+                            </li>
+                            <li>
+                                <a href="login.jsp">Login</a>
+                            </li>
+                            <li>
+                                <a href="AfficherPanierServlet">Afficher mon panier</a>
+                            </li>
+                        </ul>
+                    </c:if>    
+                </nav>
+            </div>
+        </div>
         <fieldset>
             <legend>Les dernières créations...</legend>
         </fieldset>
@@ -55,28 +83,39 @@
             <c:forEach var="item" items="${categories}" varStatus="status">
                 <table>
                     <tr>
-                        <td><a href="AfficheDetailImgServlet?chemin=${item.getFile()}"><img src="<c:out value="${item.getFile()}" />"/></a></td>
+                        <td><a href="AfficheDetailImgServlet?chemin=${item.getFile()}">${item.getNom()}</a> déposé par ${nomUtilisateur[status.index].getLogin()}</td>
                     </tr>
                     <tr>
-                        <td><a href="AfficheDetailImgServlet?chemin=${item.getFile()}">${item.getNom()}</a> déposé par ${nomUtilisateur[status.index].getLogin()}</td>
+                        <td><a class="thumbnail" href="AfficheDetailImgServlet?chemin=${item.getFile()}"><img src="<c:out value="${item.getFile()}" />"/></a></td>
                     </tr>
                 </table>                
             </c:forEach>
         </ul>
         
         <c:forEach var="itemCategorie" items="${lesCategories}">
-            <p>${itemCategorie.getNom()}</p>
+            <h2>${itemCategorie.getNom()}</h2>
             <c:forEach var="itemCreation" items="${lesCreations}" varStatus="status">                
                 <c:if test="${itemCategorie.getId() == itemCreation.getIdCategorie()}"> 
-                    <p>${itemCreation.getNom()}</p>
-                    <table>
-                    <tr>
-                        <td><a href="AfficheDetailImgServlet?chemin=${itemCreation.getFile()}"><img src="<c:out value="${itemCreation.getFile()}" />"/></a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="AfficheDetailImgServlet?chemin=${itemCreation.getFile()}">${itemCreation.getNom()}</a> déposé par ${nomUtilisateur[status.index].getLogin()}</td>
-                    </tr>
-                </table> 
+                    <!--table>
+                        <tr>
+                            <td-->
+                        <div class="row">
+                            <div class="col-sm-6 col-md-4">
+                                <div class="thumbnail">
+                                    <a href="AfficheDetailImgServlet?chemin=${itemCreation.getFile()}"><img src="<c:out value="${itemCreation.getFile()}"/>"/></a> 
+                                </div>
+                                <div class="caption">
+                                    <h4>${itemCreation.getNom()}</h4>
+                                    <p>déposé par ${nomUtilisateur[status.index].getLogin()}</p>
+                                </div>
+                            <!--/td>
+                        </tr-->
+                        <!--tr>
+                           <td><a class="thumbnail" href="AfficheDetailImgServlet?chemin=${itemCreation.getFile()}"><img src="<c:out value="${itemCreation.getFile()}" />"/></a></td>
+                        </tr>   
+                </table--> 
+                            </div>
+                        </div>
                 </c:if> 
             </c:forEach>
         </c:forEach>
