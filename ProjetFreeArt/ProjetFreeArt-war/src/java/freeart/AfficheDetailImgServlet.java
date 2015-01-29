@@ -80,6 +80,13 @@ public class AfficheDetailImgServlet extends HttpServlet {
             List<User> resUser = freeart.EJBUser.getUsers();
             request.setAttribute("listcom", resCom);
             request.setAttribute("listuser", resUser);
+            
+            session.getTransaction().commit();
+                    session.close();
+
+                    if ( sessionFactory != null ) {
+                        sessionFactory.close();
+                    }
         
         RequestDispatcher rd = request
                         .getRequestDispatcher("/detailImg.jsp");
@@ -98,6 +105,11 @@ public class AfficheDetailImgServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        String action = request.getParameter("action");
+
+        if (action.equals("add"))
+        {
         
                     SessionFactory sessionFactory;
 
@@ -142,11 +154,67 @@ public class AfficheDetailImgServlet extends HttpServlet {
 
                     if ( sessionFactory != null ) {
                         sessionFactory.close();
-                    }
+                    }          
+        }
+        else if(action.equals("modify"))
+        {
+            SessionFactory sessionFactory;
+
+                    // A SessionFactory is set up once for an application
+                    sessionFactory = new Configuration()
+                        .configure() // configures settings from hibernate.cfg.xml
+                        .buildSessionFactory();
+
+                    // create a couple of events...
+                    Session session = sessionFactory.openSession();
+                    session.beginTransaction();
                     
-                    RequestDispatcher rd = request
-                                .getRequestDispatcher("/detailImg.jsp");
-                    rd.forward(request, response);
+                    String newContenu = request.getParameter("newContenuCom");
+                    String idcomstr = request.getParameter("idCom");
+                    int idcom = Integer.parseInt(idcomstr);
+                    
+                    freeart.EJBCommentaire.modifyCommentaire(idcom,newContenu);
+                    
+                    session.getTransaction().commit();
+                    session.close();
+
+                    if ( sessionFactory != null ) {
+                        sessionFactory.close();
+                    }
+        }
+        else if(action.equals("delete"))
+        {
+            SessionFactory sessionFactory;
+
+                    // A SessionFactory is set up once for an application
+                    sessionFactory = new Configuration()
+                        .configure() // configures settings from hibernate.cfg.xml
+                        .buildSessionFactory();
+
+                    // create a couple of events...
+                    Session session = sessionFactory.openSession();
+                    session.beginTransaction();
+                    
+                    String idcomstr = request.getParameter("idCom");
+                    int idcom = Integer.parseInt(idcomstr);
+                    
+                    freeart.EJBCommentaire.deleteCommentaire(idcom);
+                    
+                    session.getTransaction().commit();
+                    session.close();
+
+                    if ( sessionFactory != null ) {
+                        sessionFactory.close();
+                    }
+        }
+        
+        String cheminfile = request.getParameter("creafile");
+        String url = request.getRequestURL().toString();
+        String baseURL = url.substring(0, url.length() - request.getRequestURI().length()) + request.getContextPath() + "/";
+        String redirectURL = baseURL + "AfficheDetailImgServlet?chemin="+cheminfile;
+        response.sendRedirect(redirectURL);
+        
+
     }
 
     /**
