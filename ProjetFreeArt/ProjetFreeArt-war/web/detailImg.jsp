@@ -39,7 +39,14 @@
                 </c:if> 
 
         </c:forEach>
-
+<c:if test="${!empty sessionScope.sessionUtilisateur}">
+<h3>Ajouter un commentaire</h3>        
+        <form action="AfficheDetailImgServlet" method="post">
+                <label>Contenu : </label><input type="text" name="contenuCom" />
+                <input type="hidden" name="idCrea" value="${creationDetail.getId()}" />
+                <input type="submit" value="Ajouter !" />
+        </form>
+ </c:if> 
         
         <a href="PanierServlet?id=${creationDetail.file}">Ajouter l'image au panier</a>
         <a href="${creationDetail.file}" download="${creationDetail.file}">Télécharger l'image directement</a>

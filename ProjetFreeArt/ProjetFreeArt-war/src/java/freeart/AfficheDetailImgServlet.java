@@ -9,6 +9,7 @@ package freeart;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -17,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -96,7 +98,55 @@ public class AfficheDetailImgServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+                    SessionFactory sessionFactory;
 
+                    // A SessionFactory is set up once for an application
+                    sessionFactory = new Configuration()
+                        .configure() // configures settings from hibernate.cfg.xml
+                        .buildSessionFactory();
+
+                    // create a couple of events...
+                    Session session = sessionFactory.openSession();
+                    session.beginTransaction();
+                    
+                    Calendar calendar = Calendar.getInstance();
+                    int day = calendar.get(Calendar.DAY_OF_MONTH);
+                    int annee = calendar.get(Calendar.YEAR);
+                    int mois = calendar.get(Calendar.MONTH);                
+                    java.sql.Date aujourdhui = new java.sql.Date(annee-1900, mois, day);
+                    
+                    HttpSession sessionUtilisateur = request.getSession();
+                    
+                    Commentaire newCom = new Commentaire();
+                    String contenu = request.getParameter("contenuCom");
+                    String idcreastr = request.getParameter("idCrea");
+                    int idcrea = Integer.parseInt(idcreastr);
+                    
+                   List<User> alU = new ArrayList<User>();
+                   alU = session.createQuery( "from User where login='" + sessionUtilisateur.getAttribute("sessionUtilisateur") + "'").list();
+
+                    for(User us : alU)
+                    {
+                        newCom.setIdUser(us.getId());
+                    }
+   
+                    newCom.setContenu(contenu);
+                    newCom.setDate(aujourdhui);
+                    
+                    newCom.setIdCreation(idcrea);
+                    session.save(newCom);
+                    
+                    session.getTransaction().commit();
+                    session.close();
+
+                    if ( sessionFactory != null ) {
+                        sessionFactory.close();
+                    }
+                    
+                    RequestDispatcher rd = request
+                                .getRequestDispatcher("/detailImg.jsp");
+                    rd.forward(request, response);
     }
 
     /**
