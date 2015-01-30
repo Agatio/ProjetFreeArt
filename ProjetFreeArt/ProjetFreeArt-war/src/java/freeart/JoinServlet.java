@@ -75,18 +75,9 @@ public class JoinServlet extends HttpServlet {
                     session.beginTransaction();
 
                     User newUser = new User(request.getParameter("login"), request.getParameter("password"));
-                    List loginUser = session.createQuery( "from User" ).list();
-                    Boolean exist =false;
+                    List loginUser = session.createQuery( "from User where login='"+newUser.getLogin()+"'" ).list();
                     
-                    for ( User u : (List<User>) loginUser )
-                    {
-                         if(u.getLogin().equals(newUser.getLogin()))
-                         {
-                             exist=true;
-                         }
-                    }
-                    
-                    if(exist==true)
+                    if(loginUser.size()>0)
                     {
                         out.println("<p>Login existant</p>");
                     }
