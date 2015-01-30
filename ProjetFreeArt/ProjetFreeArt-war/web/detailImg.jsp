@@ -67,7 +67,10 @@
             </div>
         </div>
         
-        <img src="<c:out value="${creationDetail.file}" />"/>   
+        <img src="<c:out value="${creationDetail.file}" />"/>  <br/>
+        <c:if test="${sessionScope.sessionUtilisateur == nomUtilisateur.getLogin()}"> 
+            <a href="SupprimerCreationServlet?idC=${creationDetail.id}">Supprimer ma création</a>
+        </c:if>
         <p>nom : ${creationDetail.nom}</p>
         <p>description : ${creationDetail.description}</p>
         <p>Déposé par : ${nomUtilisateur.getLogin()}</p>
